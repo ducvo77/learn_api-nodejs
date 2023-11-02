@@ -1,13 +1,10 @@
 import { Db, MongoClient, ServerApiVersion } from 'mongodb'
-import dotenv from 'dotenv'
-dotenv.config()
+import env from './environment'
 
-const MONGNODB_URI: string = process.env.MONGNODB_URI || ''
-const DATABASE_NAME: string = 'learn_api'
 let databaseInstance: Db | null = null
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
-const client: MongoClient = new MongoClient(MONGNODB_URI, {
+const client: MongoClient = new MongoClient(env.MONGNODB_URI, {
   serverApi: {
     version: ServerApiVersion.v1,
     strict: true,
@@ -18,10 +15,14 @@ const client: MongoClient = new MongoClient(MONGNODB_URI, {
 export const CONNECT_DB = async () => {
   try {
     await client.connect()
-    databaseInstance = client.db(DATABASE_NAME)
+    databaseInstance = client.db(env.HOST_NAME)
   } catch (error) {
     console.log(error)
   }
+}
+
+export const CLOSE_DB = async () => {
+  await client.close()
 }
 
 export const GET_DB = () => {
