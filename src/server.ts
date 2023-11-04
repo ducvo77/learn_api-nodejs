@@ -1,14 +1,19 @@
-import express, { Request, Response, Express, NextFunction } from 'express'
+import express, { Request, Response, Express } from 'express'
+import cors from 'cors'
 import exitHook from 'async-exit-hook'
-import { CONNECT_DB, CLOSE_DB } from './config/mongodb'
+
 import env from './config/environment'
+import { CONNECT_DB, CLOSE_DB } from './config/mongodb'
 import { APIs_V1 } from './routes/v1'
 import { errorHandlingMiddleware } from './middlewares/errorMiddlewareHandlinhg'
+import { corsOptions } from './config/cors'
 
 const START_SERVER = () => {
   const app: Express = express()
   const port: number = env.PORT
   const hostname: string = env.HOST_NAME
+
+  app.use(cors(corsOptions))
 
   app.use(express.json())
 

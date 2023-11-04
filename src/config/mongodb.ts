@@ -15,7 +15,7 @@ const client: MongoClient = new MongoClient(env.MONGNODB_URI, {
 export const CONNECT_DB = async () => {
   try {
     await client.connect()
-    databaseInstance = client.db(env.HOST_NAME)
+    databaseInstance = client.db(env.DATABASE_NAME)
   } catch (error) {
     console.log(error)
   }
